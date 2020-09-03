@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1CC93161-A9BB-466A-8D97-2DED2063DE7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICH.Snowflake", "src\ICH.Snowflake\ICH.Snowflake.csproj", "{D496D070-21AD-4839-948E-F3861D407601}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FD07FA60-3E66-478E-AD49-6A83CB8E8CBE}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICH.Snowflake.Redis", "src\ICH.Snowflake.Redis\ICH.Snowflake.Redis.csproj", "{8307A558-F993-4E03-8C9C-EEC9A14AC1CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B0F123BC-F608-4158-BF3D-B04A562F0630}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICH.Snowflake.Test", "test\ICH.Snowflake.Test\ICH.Snowflake.Test.csproj", "{2F53B85D-F224-4291-B0C4-92DED4A90A6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D496D070-21AD-4839-948E-F3861D407601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D496D070-21AD-4839-948E-F3861D407601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D496D070-21AD-4839-948E-F3861D407601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D496D070-21AD-4839-948E-F3861D407601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8307A558-F993-4E03-8C9C-EEC9A14AC1CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8307A558-F993-4E03-8C9C-EEC9A14AC1CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8307A558-F993-4E03-8C9C-EEC9A14AC1CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8307A558-F993-4E03-8C9C-EEC9A14AC1CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F53B85D-F224-4291-B0C4-92DED4A90A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F53B85D-F224-4291-B0C4-92DED4A90A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F53B85D-F224-4291-B0C4-92DED4A90A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F53B85D-F224-4291-B0C4-92DED4A90A6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D496D070-21AD-4839-948E-F3861D407601} = {1CC93161-A9BB-466A-8D97-2DED2063DE7A}
+		{8307A558-F993-4E03-8C9C-EEC9A14AC1CD} = {1CC93161-A9BB-466A-8D97-2DED2063DE7A}
+		{2F53B85D-F224-4291-B0C4-92DED4A90A6F} = {B0F123BC-F608-4158-BF3D-B04A562F0630}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AC94F37-BBBC-4B09-B997-DC25AECA1BF7}
+	EndGlobalSection
+EndGlobal

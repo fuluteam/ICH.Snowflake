@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs
+/test/ICH.Snowflake.Test/obj
+/test/ICH.Snowflake.Test/bin/Debug/netcoreapp3.1
+/src/ICH.Snowflake/bin/Debug
+/src/ICH.Snowflake/obj
+/src/ICH.Snowflake.Redis/bin/Debug
+/src/ICH.Snowflake.Redis/obj
