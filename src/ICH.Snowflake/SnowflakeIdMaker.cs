@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,9 +16,28 @@ namespace ICH.Snowflake
         //最后的序号
         private uint lastIndex = 0;
         /// <summary>
+        /// 工作机器长度，最大支持1024个节点，可根据实际情况调整，比如调整为9，则最大支持512个节点，可把多出来的一位分配至序号，提高单位毫秒内支持的最大序号
+        /// </summary>
+        private readonly int _workIdLength;
+        /// <summary>
+        /// 支持的最大工作节点
+        /// </summary>
+        private readonly int _maxWorkId;
+
+        /// <summary>
+        /// 序号长度，最大支持4096个序号
+        /// </summary>
+        private readonly int _indexLength;
+        /// <summary>
+        /// 支持的最大序号
+        /// </summary>
+        private readonly int _maxIndex;
+
+        /// <summary>
         /// 当前工作节点
         /// </summary>
         private int? _workId;
+
         private readonly IServiceProvider _provider;
 
 
@@ -25,6 +45,11 @@ namespace ICH.Snowflake
         {
             _provider = provider;
             _option = options.Value;
+            _workIdLength = _option.WorkIdLength;
+            _maxWorkId = 1 << _workIdLength;
+            _indexLength = 22 - _workIdLength;
+            _maxIndex = 1 << _indexLength;
+
         }
 
         private async Task Init()
@@ -34,6 +59,10 @@ namespace ICH.Snowflake
             {
                 _workId = await distributed.GetNextWorkId();
             }
+            else
+            {
+                _workId = _option.WorkId;
+            }
         }
 
         public long NextId(int? workId = null)
@@ -42,9 +71,9 @@ namespace ICH.Snowflake
             {
                 _workId = workId.Value;
             }
-            if (_workId > 511)
+            if (_workId > _maxWorkId)
             {
-                throw new Exception("机器码取值范围为0-511");
+                throw new ArgumentException($"机器码取值范围为0-{_maxWorkId}");
             }
 
             lock (locker)
@@ -54,8 +83,9 @@ namespace ICH.Snowflake
                     Init().Wait();
                 }
                 var currentTimeStamp = TimeStamp();
-                if (lastIndex >= 8192)
+                if (lastIndex >= _maxIndex)
                 {
+                    //如果当前序列号大于允许的最大序号，则表示，当前单位毫秒内，序号已用完，则获取时间戳。
                     currentTimeStamp = TimeStamp(lastTimestamp);
                 }
                 if (currentTimeStamp > lastTimestamp)
@@ -70,8 +100,8 @@ namespace ICH.Snowflake
                     Init().Wait();
                     return NextId();
                 }
-                var time = currentTimeStamp << 22;
-                var work = _workId.Value << 13;
+                var time = currentTimeStamp << (_indexLength + _workIdLength);
+                var work = _workId.Value << _workIdLength;
                 var id = time | work | lastIndex;
                 lastIndex++;
                 return id;
@@ -79,19 +109,12 @@ namespace ICH.Snowflake
         }
         private long TimeStamp(long lastTimestamp = 0L)
         {
-            var dt1970 = new DateTime(1970, 1, 1);
-            var current = (DateTime.Now.Ticks - dt1970.Ticks) / 10000;
+            var current = (DateTime.Now.Ticks - _option.StartTimeStamp.Ticks) / 10000;
             if (lastTimestamp == current)
             {
                 return TimeStamp(lastTimestamp);
             }
             return current;
-        }
-
-        private long GetTimestamp(DateTime time)
-        {
-            var dt1970 = new DateTime(1970, 1, 1);
-            return (time.Ticks - dt1970.Ticks) / 10000;
         }
     }
 }

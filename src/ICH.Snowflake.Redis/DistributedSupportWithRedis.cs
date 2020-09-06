@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
 namespace ICH.Snowflake.Redis
@@ -17,10 +18,13 @@ namespace ICH.Snowflake.Redis
         /// </summary>
         private readonly string _inUse;
 
+        private readonly RedisOption _redisOption;
+
         private int _workId;
-        public DistributedSupportWithRedis(IRedisClient redisClient)
+        public DistributedSupportWithRedis(IRedisClient redisClient, IOptions<RedisOption> redisOption)
         {
             _redisClient = redisClient;
+            _redisOption = redisOption.Value;
             _currentWorkIndex = "current.work.index";
             _inUse = "in.use";
         }
@@ -28,7 +32,7 @@ namespace ICH.Snowflake.Redis
         public async Task<int> GetNextWorkId()
         {
             _workId = (int)(await _redisClient.IncrementAsync(_currentWorkIndex)) - 1;
-            if (_workId > 511)
+            if (_workId > 1 << _redisOption.WorkIdLength)
             {
                 //表示所有节点已全部被使用过，则从历史列表中，获取当前已回收的节点id
                 var newWorkdId = await _redisClient.SortedRangeByScoreWithScoresAsync(_inUse, 0,
