@@ -47,6 +47,7 @@ namespace ICH.Snowflake
             _option = options.Value;
             _workIdLength = _option.WorkIdLength;
             _maxWorkId = 1 << _workIdLength;
+            //工作机器id和序列号的总长度是22位，为了使组件更灵活，根据机器id的长度计算序列号的长度。
             _indexLength = 22 - _workIdLength;
             _maxIndex = 1 << _indexLength;
 
