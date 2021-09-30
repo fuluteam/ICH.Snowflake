@@ -36,7 +36,7 @@ namespace ICH.Snowflake.Redis
             {
                 //表示所有节点已全部被使用过，则从历史列表中，获取当前已回收的节点id
                 var newWorkdId = await _redisClient.SortedRangeByScoreWithScoresAsync(_inUse, 0,
-                    GetTimestamp(DateTime.Now.AddMinutes(5)), 0, 1, Order.Ascending);
+                    GetTimestamp(DateTime.Now.AddMinutes(-5)), 0, 1, Order.Ascending);
                 if (!newWorkdId.Any())
                 {
                     throw new Exception("没有可用的节点");
