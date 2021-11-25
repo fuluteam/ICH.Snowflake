@@ -21,6 +21,6 @@ namespace ICH.Snowflake
         /// <summary>
         /// 用于计算时间戳的开始时间
         /// </summary>
-        public DateTime StartTimeStamp { get; set; } = DateTime.Parse("2000-01-01");
+        public DateTime StartTimeStamp { get; set; } = DateTime.Parse("1970-01-01");
     }
 }

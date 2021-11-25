@@ -99,11 +99,13 @@ namespace ICH.Snowflake
                     //throw new Exception("时间戳生成出现错误");
                     //发生时钟回拨，切换workId，可解决。
                     Init().Wait();
-                    return NextId();
+                    return NextId(workId);
                 }
+
+                long id = 0L;
+                var work = _workId.Value << _indexLength;
                 var time = currentTimeStamp << (_indexLength + _workIdLength);
-                var work = _workId.Value << _workIdLength;
-                var id = time | work | lastIndex;
+                id = time | work | lastIndex;
                 lastIndex++;
                 return id;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ICH.Snowflake.Test
@@ -8,8 +9,6 @@ namespace ICH.Snowflake.Test
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine(1L << 12);
-
             var services = new ServiceCollection();
             services.AddSnowflakeWithRedis(opt =>
             {
@@ -19,11 +18,11 @@ namespace ICH.Snowflake.Test
                 opt.RefreshAliveInterval = TimeSpan.FromHours(1);
             });
             var idMaker = services.BuildServiceProvider().GetService<ISnowflakeIdMaker>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
+                
                 Console.WriteLine(idMaker.NextId());
             }
-            ;
         }
     }
 }
