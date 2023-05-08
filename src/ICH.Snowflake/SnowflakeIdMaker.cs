@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -115,6 +116,7 @@ namespace ICH.Snowflake
             var current = (DateTime.Now.Ticks - _option.StartTimeStamp.Ticks) / 10000;
             if (lastTimestamp == current)
             {
+                Thread.Sleep(1); // 这里需要暂停一下，否则执行速度特别快的情况下，递归会栈溢出
                 return TimeStamp(lastTimestamp);
             }
             return current;
